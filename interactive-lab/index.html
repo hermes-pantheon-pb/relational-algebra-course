@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A University Computer Science level interactive course and workbench for mastering formal Relational Algebra, query optimization, and set operators.">
+  <title>Relational Algebra Masterclass — Interactive Learning Lab</title>
+
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand-wrapper">
+        <div class="symbol-badge">σ π ⋈ ÷</div>
+        <div class="brand-title">
+          <h1>Relational Algebra Masterclass</h1>
+          <p>Advanced Computer Science Interactive Laboratory</p>
+        </div>
+      </div>
+
+      <nav class="tab-nav" aria-label="Main Navigation">
+        <button class="tab-btn active" data-target="tab-schema" id="nav-btn-schema">
+          <span>🗄️</span> Schema & Tables
+        </button>
+        <button class="tab-btn" data-target="tab-workbench" id="nav-btn-workbench">
+          <span>⚡</span> Operator Workbench
+        </button>
+        <button class="tab-btn" data-target="tab-optimizer" id="nav-btn-optimizer">
+          <span>🌳</span> Query Trees & Optimizer
+        </button>
+        <button class="tab-btn" data-target="tab-patterns" id="nav-btn-patterns">
+          <span>🔬</span> Academic Scenarios
+        </button>
+        <button class="tab-btn" data-target="tab-exam" id="nav-btn-exam">
+          <span>📝</span> University CS Exam
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main>
+
+    <!-- Tab 1: Database Schema & Dataset Explorer -->
+    <section class="tab-panel active" id="tab-schema">
+      <div class="section-hero">
+        <div>
+          <h2>🗄️ The Instantiated University Relational Model</h2>
+          <p>This canonical benchmark database provides the grounded, mathematical foundation for all algebraic queries, joins, divisions, and proofs throughout this curriculum.</p>
+        </div>
+        <div>
+          <span class="badge badge-cyan">6 Relations</span>
+          <span class="badge badge-purple">Referential Integrity Enforced</span>
+        </div>
+      </div>
+
+      <div class="grid-2" id="schema-tables-grid">
+        <!-- Tables will be dynamically rendered here by app.js -->
+      </div>
+    </section>
+
+    <!-- Tab 2: Interactive Operator Workbench -->
+    <section class="tab-panel" id="tab-workbench">
+      <div class="section-hero">
+        <div>
+          <h2>⚡ Interactive Operator Workbench</h2>
+          <p>Inspect how relational algebra operators execute step-by-step. Select presets to visualize intermediate relations and learn how operators compound into full database query pipelines.</p>
+        </div>
+        <div>
+          <span class="badge badge-emerald">Live Set Evaluator</span>
+        </div>
+      </div>
+
+      <div class="workbench-grid">
+        <!-- Sidebar: Presets and Options -->
+        <div class="control-card">
+          <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 0.35rem;">Academic Presets</h3>
+          <p style="font-size: 0.8rem; color: var(--text-secondary);">Select a query to execute its algebraic pipeline:</p>
+          <div class="preset-list" id="preset-queries-list">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Main Query Execution Viewer -->
+        <div>
+          <div class="query-box">
+            <span class="badge badge-cyan">Current Expression</span>
+            <div class="query-display" id="workbench-math-display">Loading...</div>
+            <div class="query-explanation" id="workbench-desc-display">...</div>
+          </div>
+
+          <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Execution Pipeline & Intermediate Steps</h3>
+          <div class="trace-pipeline" id="workbench-trace-display">
+            <!-- Intermediate steps populated by app.js -->
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <div id="workbench-result-display">
+              <!-- Final Result Table rendered here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Query Trees & Optimizer -->
+    <section class="tab-panel" id="tab-optimizer">
+      <div class="section-hero">
+        <div>
+          <h2>🌳 Algebraic Expression Trees & Heuristic Optimization</h2>
+          <p>See how database engines transform declarative queries into algebraic trees, and witness the drastic impact of <strong>Predicate Pushdown</strong> and early projections on execution efficiency.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-secondary" id="btn-tree-naive">Naive Plan (Filter After Join)</button>
+          <button class="btn-primary" id="btn-tree-opt">Optimized Plan (Pushdown)</button>
+        </div>
+      </div>
+
+      <div class="glass-panel" style="margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--accent-cyan);">Target Query:</h3>
+        <p style="font-size: 0.92rem; color: var(--text-main); font-family: var(--font-mono); margin-bottom: 0.5rem;">
+          π[title, name]( σ[Student.major='Math' ∧ Enrollment.grade='A' ∧ Course.credits=3]( Student ⋈ Enrollment ⋈ Course ) )
+        </p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+          Find all titles and student names for Math majors who earned an 'A' in a 3-credit course.
+        </p>
+      </div>
+
+      <div class="grid-2" style="align-items: start;">
+        <div>
+          <div class="tree-container" id="tree-diagram-container">
+            <!-- Dynamically populated tree -->
+          </div>
+        </div>
+
+        <div>
+          <div class="glass-panel">
+            <h3 style="font-size: 1.15rem; margin-bottom: 1rem; color: var(--text-main);">Performance & Cardinality Analysis</h3>
+            <div id="tree-metrics-box" style="margin-bottom: 1.5rem;">
+              <!-- Metrics populated by app.js -->
+            </div>
+
+            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+              <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Why Selection Pushdown is Vital:</h4>
+              <p style="margin-bottom: 0.75rem;">
+                In the Naive Plan, the engine joins all 6 students with all 13 enrollments and 7 courses before filtering. This materializes 104 data cells in memory.
+              </p>
+              <p>
+                In the Optimized Plan, applying <code>σ[major='Math']</code> and <code>σ[credits=3]</code> directly at the base tables reduces the input sizes down to 2 students and 2 courses, eliminating 94% of unnecessary memory materialization!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Academic Patterns Deep Dive -->
+    <section class="tab-panel" id="tab-patterns">
+      <div class="section-hero">
+        <div>
+          <h2>🔬 Academically Celebrated Patterns & Hard Scenarios</h2>
+          <p>Explore the most notorious university CS exam challenges: Division, Extreme Values without aggregates, and Counting via Self-Joins.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <!-- Pattern 1: Universal Quantification -->
+        <div class="glass-panel" style="margin-bottom: 0;">
+          <span class="badge badge-purple" style="margin-bottom: 0.75rem;">Universal Quantification</span>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">The Relational Division (÷)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Models "for all" (∀) logic using double negation:
+            <br><code>R ÷ S = π_X(R) - π_X( (π_X(R) × S) - R )</code>
+          </p>
+          <div style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 1rem; font-family: var(--font-mono); color: var(--accent-cyan);">
+            Target: All CS courses (CS101, CS102, CS201, CS301).<br>
+            Result: Alice (s1) is the only student with zero missing requirements.
+          </div>
+          <button class="btn-secondary" style="width: 100%;" onclick="document.getElementById('nav-btn-workbench').click(); setTimeout(() => document.querySelectorAll('.preset-btn')[3].click(), 100);">
+            Run in Workbench →
+          </button>
+        </div>
+
+        <!-- Pattern 2: Max without Aggregation -->
+        <div class="glass-panel" style="margin-bottom: 0;">
+          <span class="badge badge-amber" style="margin-bottom: 0.75rem; background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3);">No Aggregates</span>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Maximum via Difference</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Pair all instructors using cross-product. Keep anyone who earns strictly less than another, then subtract from all instructors!
+          </p>
+          <div style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 1rem; font-family: var(--font-mono); color: var(--accent-cyan);">
+            I1.salary < I2.salary filters out everyone except Alan Turing ($120,000).
+          </div>
+          <button class="btn-secondary" style="width: 100%;" onclick="document.getElementById('nav-btn-workbench').click(); setTimeout(() => document.querySelectorAll('.preset-btn')[5].click(), 100);">
+            Run in Workbench →
+          </button>
+        </div>
+
+        <!-- Pattern 3: Counting without COUNT -->
+        <div class="glass-panel" style="margin-bottom: 0;">
+          <span class="badge badge-emerald" style="margin-bottom: 0.75rem;">Set Counting</span>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">At-Least-2 vs Exactly-1</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Self-join with inequality <code>E1.c_id ≠ E2.c_id</code> extracts entities with ≥ 2 items. Subtracting from all yields entities with exactly 1!
+          </p>
+          <div style="background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-bottom: 1rem; font-family: var(--font-mono); color: var(--accent-cyan);">
+            Evan (s5) is the only student enrolled in exactly one course (CS101).
+          </div>
+          <button class="btn-secondary" style="width: 100%;" onclick="document.getElementById('nav-btn-workbench').click(); setTimeout(() => document.querySelectorAll('.preset-btn')[6].click(), 100);">
+            Run in Workbench →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 5: University CS Exam -->
+    <section class="tab-panel" id="tab-exam">
+      <div class="section-hero">
+        <div>
+          <h2>📝 University CS Final Examination</h2>
+          <p>Test your conceptual understanding, evaluation precision, query formulation, and optimization proof abilities. Immediate feedback and formal derivations provided.</p>
+        </div>
+      </div>
+
+      <!-- Live Scoreboard -->
+      <div class="exam-scoreboard">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.2rem;">CS 4400 / 6400 Final Exam Simulator</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">10 High-Yield Exam Problems · 100 Points Total</p>
+        </div>
+        <div class="score-stats">
+          <div class="stat-item">
+            <span class="stat-num" id="exam-total-score">0 / 100</span>
+            <span class="stat-label">Total Score</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num" id="exam-answered-count">0 / 10</span>
+            <span class="stat-label">Answered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Questions List -->
+      <div id="exam-questions-list">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="border-top: 1px solid var(--border-glass); padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem; background: var(--bg-glass);">
+    <p>Relational Algebra Masterclass — Designed for Computer Science Database Systems Education</p>
+    <p style="margin-top: 0.35rem; font-family: var(--font-mono); font-size: 0.75rem;">Based on Edgar F. Codd's Relational Model (1970)</p>
+  </footer>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

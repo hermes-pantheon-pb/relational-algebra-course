@@ -1,0 +1,100 @@
+{
+  "database": "UniversityDB",
+  "description": "Instantiated Relational Model for Relational Algebra Course",
+  "relations": {
+    "Student": {
+      "attributes": ["s_id", "name", "major", "gpa", "year"],
+      "primary_key": ["s_id"],
+      "rows": [
+        {"s_id": "s1", "name": "Alice", "major": "CS", "gpa": 3.8, "year": 3},
+        {"s_id": "s2", "name": "Bob", "major": "CS", "gpa": 3.2, "year": 2},
+        {"s_id": "s3", "name": "Charlie", "major": "Math", "gpa": 3.9, "year": 4},
+        {"s_id": "s4", "name": "Diana", "major": "Physics", "gpa": 3.5, "year": 1},
+        {"s_id": "s5", "name": "Evan", "major": "CS", "gpa": 3.9, "year": 2},
+        {"s_id": "s6", "name": "Fiona", "major": "Math", "gpa": 2.8, "year": 1}
+      ]
+    },
+    "Course": {
+      "attributes": ["c_id", "title", "dept", "credits"],
+      "primary_key": ["c_id"],
+      "rows": [
+        {"c_id": "CS101", "title": "Intro to CS", "dept": "CS", "credits": 4},
+        {"c_id": "CS102", "title": "Data Structures", "dept": "CS", "credits": 4},
+        {"c_id": "CS201", "title": "Algorithms", "dept": "CS", "credits": 4},
+        {"c_id": "CS301", "title": "Databases", "dept": "CS", "credits": 4},
+        {"c_id": "MATH101", "title": "Calculus I", "dept": "Math", "credits": 3},
+        {"c_id": "MATH102", "title": "Linear Algebra", "dept": "Math", "credits": 3},
+        {"c_id": "PHYS101", "title": "Physics I", "dept": "Physics", "credits": 4}
+      ]
+    },
+    "Enrollment": {
+      "attributes": ["s_id", "c_id", "semester", "grade"],
+      "primary_key": ["s_id", "c_id", "semester"],
+      "foreign_keys": [
+        {"attributes": ["s_id"], "references": "Student(s_id)"},
+        {"attributes": ["c_id"], "references": "Course(c_id)"}
+      ],
+      "rows": [
+        {"s_id": "s1", "c_id": "CS101", "semester": "F22", "grade": "A"},
+        {"s_id": "s1", "c_id": "CS102", "semester": "S23", "grade": "A"},
+        {"s_id": "s1", "c_id": "CS201", "semester": "F23", "grade": "B"},
+        {"s_id": "s1", "c_id": "CS301", "semester": "S24", "grade": "A"},
+        {"s_id": "s2", "c_id": "CS101", "semester": "F23", "grade": "B"},
+        {"s_id": "s2", "c_id": "CS102", "semester": "S24", "grade": "C"},
+        {"s_id": "s2", "c_id": "MATH101", "semester": "F23", "grade": "B"},
+        {"s_id": "s3", "c_id": "MATH101", "semester": "F21", "grade": "A"},
+        {"s_id": "s3", "c_id": "MATH102", "semester": "S22", "grade": "A"},
+        {"s_id": "s3", "c_id": "CS101", "semester": "F22", "grade": "A"},
+        {"s_id": "s4", "c_id": "PHYS101", "semester": "F23", "grade": "A"},
+        {"s_id": "s4", "c_id": "MATH101", "semester": "F23", "grade": "B"},
+        {"s_id": "s5", "c_id": "CS101", "semester": "F23", "grade": "A"}
+      ]
+    },
+    "Instructor": {
+      "attributes": ["i_id", "name", "dept", "salary"],
+      "primary_key": ["i_id"],
+      "rows": [
+        {"i_id": "i1", "name": "Alan Turing", "dept": "CS", "salary": 120000},
+        {"i_id": "i2", "name": "Ada Lovelace", "dept": "CS", "salary": 115000},
+        {"i_id": "i3", "name": "Carl Gauss", "dept": "Math", "salary": 110000},
+        {"i_id": "i4", "name": "Emmy Noether", "dept": "Math", "salary": 112000},
+        {"i_id": "i5", "name": "Richard Feynman", "dept": "Physics", "salary": 105000},
+        {"i_id": "i6", "name": "Claude Shannon", "dept": "CS", "salary": 95000}
+      ]
+    },
+    "Teaches": {
+      "attributes": ["i_id", "c_id", "semester"],
+      "primary_key": ["i_id", "c_id", "semester"],
+      "foreign_keys": [
+        {"attributes": ["i_id"], "references": "Instructor(i_id)"},
+        {"attributes": ["c_id"], "references": "Course(c_id)"}
+      ],
+      "rows": [
+        {"i_id": "i1", "c_id": "CS101", "semester": "F22"},
+        {"i_id": "i1", "c_id": "CS101", "semester": "F23"},
+        {"i_id": "i1", "c_id": "CS201", "semester": "F23"},
+        {"i_id": "i2", "c_id": "CS102", "semester": "S23"},
+        {"i_id": "i2", "c_id": "CS102", "semester": "S24"},
+        {"i_id": "i2", "c_id": "CS301", "semester": "S24"},
+        {"i_id": "i3", "c_id": "MATH101", "semester": "F21"},
+        {"i_id": "i3", "c_id": "MATH101", "semester": "F23"},
+        {"i_id": "i4", "c_id": "MATH102", "semester": "S22"},
+        {"i_id": "i5", "c_id": "PHYS101", "semester": "F23"}
+      ]
+    },
+    "Prereq": {
+      "attributes": ["c_id", "prereq_id"],
+      "primary_key": ["c_id", "prereq_id"],
+      "foreign_keys": [
+        {"attributes": ["c_id"], "references": "Course(c_id)"},
+        {"attributes": ["prereq_id"], "references": "Course(c_id)"}
+      ],
+      "rows": [
+        {"c_id": "CS102", "prereq_id": "CS101"},
+        {"c_id": "CS201", "prereq_id": "CS102"},
+        {"c_id": "CS301", "prereq_id": "CS102"},
+        {"c_id": "MATH102", "prereq_id": "MATH101"}
+      ]
+    }
+  }
+}
